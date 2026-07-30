@@ -46,4 +46,5 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
+Developer name : K V NIVETHITHA
 
