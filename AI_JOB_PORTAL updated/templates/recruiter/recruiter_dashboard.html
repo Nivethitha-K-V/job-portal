@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Recruiter Dashboard | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/recruiter_sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Recruiter Dashboard</h2>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="stat-card text-center"><h3>{{ total_jobs }}</h3><p class="text-muted mb-0">Jobs Posted</p></div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card text-center"><h3>{{ active_jobs }}</h3><p class="text-muted mb-0">Active Jobs</p></div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card text-center"><h3>{{ total_applicants }}</h3><p class="text-muted mb-0">Total Applicants</p></div>
+      </div>
+    </div>
+
+    <div class="card-glass p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Your Job Postings</h5>
+        <a href="{% url 'post_job' %}" class="btn btn-pastel-primary btn-sm">Post New Job</a>
+      </div>
+      {% for job in jobs %}
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+          <div>
+            <strong>{{ job.title }}</strong>
+            <div class="text-muted small">{{ job.location }} · {{ job.get_job_type_display }}</div>
+          </div>
+          <div>
+            <span class="badge-skill {% if not job.is_active %}badge-skill-missing{% endif %}">{% if job.is_active %}Active{% else %}Closed{% endif %}</span>
+            <a href="{% url 'applicants_list' job.pk %}" class="btn btn-pastel-outline btn-sm ms-2">Applicants</a>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-muted mb-0">You haven't posted any jobs yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

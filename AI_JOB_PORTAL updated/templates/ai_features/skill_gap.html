@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Skill Gap Analyzer | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Skill Gap Analyzer</h2>
+
+    <div class="card-glass p-4 mb-4">
+      <form method="get" class="row g-3">
+        <div class="col-md-9">
+          <select name="job_id" class="form-select">
+            <option value="">Select a job to compare against</option>
+            {% for job in jobs %}
+              <option value="{{ job.pk }}" {% if selected_job.pk == job.pk %}selected{% endif %}>{{ job.title }} — {{ job.company }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-pastel-primary w-100">Analyze</button>
+        </div>
+      </form>
+    </div>
+
+    {% if result %}
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card-glass p-4 text-center">
+          <div class="score-circle mx-auto" style="--score: {{ result.match_percentage }};"><span>{{ result.match_percentage }}%</span></div>
+          <p class="text-muted mt-3 mb-0">Match with {{ selected_job.title }}</p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold">Matched Skills</h6>
+          {% for skill in result.matched_skills %}<span class="badge-skill">{{ skill }}</span>{% empty %}<p class="text-muted">No skills matched yet — add skills to your profile.</p>{% endfor %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold">Missing Skills</h6>
+          {% for skill in result.missing_skills %}<span class="badge-skill badge-skill-missing">{{ skill }}</span>{% empty %}<p class="text-muted">None — you meet all requirements!</p>{% endfor %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold"><i class="fa-solid fa-road me-1"></i>Recommended Learning Path</h6>
+          <ul>{% for course in result.recommended_courses %}<li>{{ course }}</li>{% endfor %}</ul>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

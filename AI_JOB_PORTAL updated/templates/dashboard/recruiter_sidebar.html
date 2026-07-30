@@ -1,0 +1,13 @@
+<div class="sidebar">
+  <div class="text-center mb-4">
+    <i class="fa-solid fa-building-circle-check fa-4x" style="color:var(--accent-purple);"></i>
+    <p class="fw-bold mb-0 mt-2">{{ user.username }}</p>
+    <small class="text-muted">Recruiter</small>
+  </div>
+  <nav class="nav flex-column">
+    <a class="nav-link" href="{% url 'recruiter_dashboard' %}"><i class="fa-solid fa-gauge me-2"></i>Dashboard</a>
+    <a class="nav-link" href="{% url 'company_profile' %}"><i class="fa-solid fa-building me-2"></i>Company Profile</a>
+    <a class="nav-link" href="{% url 'post_job' %}"><i class="fa-solid fa-circle-plus me-2"></i>Post a Job</a>
+    <a class="nav-link" href="{% url 'manage_jobs' %}"><i class="fa-solid fa-list-check me-2"></i>Manage Jobs</a>
+  </nav>
+</div>

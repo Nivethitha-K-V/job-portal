@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Browse Jobs | AI Job Portal{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h2 class="section-title">Browse Jobs</h2>
+
+  <div class="card-glass p-4 mb-4">
+    <form method="get" class="row g-3">
+      <div class="col-md-4">{{ form.keyword }}</div>
+      <div class="col-md-3">{{ form.location }}</div>
+      <div class="col-md-2">{{ form.job_type }}</div>
+      <div class="col-md-2">{{ form.experience }}</div>
+      <div class="col-md-1"><button type="submit" class="btn btn-pastel-primary w-100"><i class="fa-solid fa-search"></i></button></div>
+    </form>
+  </div>
+
+  <div class="row g-4">
+    {% for job in jobs %}
+    <div class="col-md-6">
+      <div class="card-glass p-4 h-100">
+        <div class="d-flex justify-content-between">
+          <h5 class="fw-bold">{{ job.title }}</h5>
+          {% if job.pk in saved_ids %}<i class="fa-solid fa-bookmark" style="color:var(--accent-purple);"></i>{% endif %}
+        </div>
+        <p class="text-muted mb-1"><i class="fa-solid fa-building me-1"></i>{{ job.company }}</p>
+        <p class="text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i>{{ job.location }} · {{ job.get_job_type_display }}</p>
+        <div class="mb-2">
+          {% for skill in job.skills_list|slice:":5" %}<span class="badge-skill">{{ skill }}</span>{% endfor %}
+        </div>
+        {% if job.salary %}<p class="text-muted small mb-2"><i class="fa-solid fa-money-bill me-1"></i>{{ job.salary }}</p>{% endif %}
+        <div class="d-flex gap-2 mt-2">
+          <a href="{% url 'job_details' job.pk %}" class="btn btn-pastel-outline btn-sm flex-grow-1">View Details</a>
+          {% if job.pk in applied_ids %}
+            <span class="btn btn-sm btn-secondary disabled flex-grow-1">Applied</span>
+          {% else %}
+            <a href="{% url 'apply_job' job.pk %}" class="btn btn-pastel-primary btn-sm flex-grow-1">Apply</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-muted">No jobs match your search.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

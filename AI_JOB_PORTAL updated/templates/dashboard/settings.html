@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Settings | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Settings</h2>
+    <div class="card-glass p-4">
+      <h5 class="fw-bold">Account</h5>
+      <p class="text-muted">Username: {{ user.username }}</p>
+      <p class="text-muted">Email: {{ user.email }}</p>
+      <a href="{% url 'edit_profile' %}" class="btn btn-pastel-outline">Edit Profile</a>
+      <a href="{% url 'logout' %}" class="btn btn-pastel-primary ms-2">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

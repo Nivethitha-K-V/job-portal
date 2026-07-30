@@ -1,0 +1,57 @@
+.dashboard-wrapper {
+  display: flex;
+  min-height: calc(100vh - 76px);
+}
+
+.sidebar {
+  width: 260px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255,255,255,0.5);
+  padding: 1.5rem 1rem;
+  min-height: calc(100vh - 76px);
+}
+
+.sidebar .nav-link {
+  color: var(--text-dark);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.stat-card {
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(108,142,245,0.1);
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-purple);
+}
+
+.table-glass {
+  background: rgba(255,255,255,0.7);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper { flex-direction: column; }
+  .sidebar { width: 100%; min-height: auto; }
+}

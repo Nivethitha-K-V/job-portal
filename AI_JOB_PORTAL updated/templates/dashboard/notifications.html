@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Notifications | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Notifications</h2>
+    <div class="card-glass p-4">
+      {% for note in notifications %}
+        <div class="border-bottom py-3">
+          <p class="mb-1">{{ note.message }}</p>
+          <small class="text-muted">{{ note.created_at|date:"M d, Y H:i" }}</small>
+        </div>
+      {% empty %}
+        <p class="text-muted mb-0">You have no notifications yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

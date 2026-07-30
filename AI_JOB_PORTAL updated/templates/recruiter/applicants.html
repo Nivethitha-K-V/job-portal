@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Applicants | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/recruiter_sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Applicants for {{ job.title }}</h2>
+    <div class="table-glass p-3">
+      <table class="table align-middle mb-0">
+        <thead><tr><th>Candidate</th><th>Email</th><th>Applied On</th><th>Status</th><th>Resume</th><th>Update Status</th></tr></thead>
+        <tbody>
+          {% for app in applications %}
+          <tr>
+            <td>{{ app.user.profile.full_name|default:app.user.username }}</td>
+            <td>{{ app.user.email }}</td>
+            <td>{{ app.applied_date|date:"M d, Y" }}</td>
+            <td><span class="badge-skill">{{ app.get_status_display }}</span></td>
+            <td><a href="{% url 'download_resume' app.pk %}" class="btn btn-pastel-outline btn-sm">Download</a></td>
+            <td>
+              <form method="post" action="{% url 'update_application_status' app.pk %}" class="d-flex gap-2">
+                {% csrf_token %}
+                <select name="status" class="form-select form-select-sm">
+                  {% for value, label in app.STATUS_CHOICES %}
+                    <option value="{{ value }}" {% if app.status == value %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-pastel-primary btn-sm">Save</button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="6" class="text-muted text-center">No applicants yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

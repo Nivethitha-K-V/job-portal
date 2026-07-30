@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Upload Resume | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Upload Resume</h2>
+    <div class="card-glass p-4" style="max-width:600px;">
+      <p class="text-muted">Upload a PDF resume. After uploading, run the AI Resume Analyzer to get your score and feedback.</p>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.file }}
+        </div>
+        <button type="submit" class="btn btn-pastel-primary w-100">Upload Resume</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

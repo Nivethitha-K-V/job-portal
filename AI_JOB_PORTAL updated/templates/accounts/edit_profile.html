@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit Profile | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">Edit Profile</h2>
+
+    <div class="card-glass p-4 mb-4">
+      <h5 class="fw-bold mb-3">Basic Details</h5>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+            {{ form.full_name }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Mobile</label>
+            {{ form.mobile }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Profile Photo</label>
+            {{ form.profile_photo }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Gender</label>
+            {{ form.gender }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Date of Birth</label>
+            {{ form.date_of_birth }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Pincode</label>
+            {{ form.pincode }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">State</label>
+            {{ form.state }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">City</label>
+            {{ form.city }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Address</label>
+            {{ form.address }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">LinkedIn URL</label>
+            {{ form.linkedin_url }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">GitHub URL</label>
+            {{ form.github_url }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Portfolio URL</label>
+            {{ form.portfolio_url }}
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Experience (yrs)</label>
+            {{ form.experience_years }}
+          </div>
+          <div class="col-md-9">
+            <label class="form-label">Experience Summary</label>
+            {{ form.experience_summary }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-pastel-primary mt-4">Save Profile</button>
+      </form>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h5 class="fw-bold mb-3">Education</h5>
+          {% for edu in education %}
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+              <div>
+                <strong>{{ edu.get_qualification_display }}</strong> — {{ edu.college }}
+              </div>
+              <a href="{% url 'delete_education' edu.pk %}" class="text-danger"><i class="fa-solid fa-trash"></i></a>
+            </div>
+          {% empty %}
+            <p class="text-muted">No education entries yet.</p>
+          {% endfor %}
+          <form method="post" action="{% url 'add_education' %}" class="mt-3">
+            {% csrf_token %}
+            <div class="row g-2">
+              <div class="col-12">{{ edu_form.qualification }}</div>
+              <div class="col-12">{{ edu_form.college }}</div>
+              <div class="col-6">{{ edu_form.degree }}</div>
+              <div class="col-6">{{ edu_form.branch }}</div>
+              <div class="col-4">{{ edu_form.passing_year }}</div>
+              <div class="col-4">{{ edu_form.cgpa }}</div>
+              <div class="col-4">{{ edu_form.percentage }}</div>
+            </div>
+            <button type="submit" class="btn btn-pastel-outline btn-sm mt-3 w-100">Add Education</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h5 class="fw-bold mb-3">Skills</h5>
+          {% for skill in skills %}
+            <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+              <div>{{ skill.name }} <span class="text-muted small">({{ skill.get_skill_type_display }})</span></div>
+              <a href="{% url 'delete_skill' skill.pk %}" class="text-danger"><i class="fa-solid fa-trash"></i></a>
+            </div>
+          {% empty %}
+            <p class="text-muted">No skills added yet.</p>
+          {% endfor %}
+          <form method="post" action="{% url 'add_skill' %}" class="mt-3">
+            {% csrf_token %}
+            <div class="row g-2">
+              <div class="col-12">{{ skill_form.name }}</div>
+              <div class="col-6">{{ skill_form.skill_type }}</div>
+              <div class="col-6">{{ skill_form.proficiency }}</div>
+            </div>
+            <button type="submit" class="btn btn-pastel-outline btn-sm mt-3 w-100">Add Skill</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

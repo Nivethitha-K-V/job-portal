@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Home | AI Job Portal{% endblock %}
+{% block content %}
+<section class="hero-section text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-3">Find Your Dream Job with <span style="color:var(--accent-purple);">AI-Powered</span> Guidance</h1>
+    <p class="lead text-muted mb-4">Upload your resume, get instant AI feedback, and discover jobs that match your skills.</p>
+    <a href="{% url 'job_list' %}" class="btn btn-pastel-primary btn-lg me-2">Browse Jobs</a>
+    <a href="{% url 'register' %}" class="btn btn-pastel-outline btn-lg">Get Started</a>
+  </div>
+</section>
+
+<section class="container mb-5">
+  <h2 class="section-title text-center">Latest Openings</h2>
+  <div class="row g-4">
+    {% for job in latest_jobs %}
+    <div class="col-md-4">
+      <div class="card-glass p-4 h-100">
+        <h5 class="fw-bold">{{ job.title }}</h5>
+        <p class="text-muted mb-1"><i class="fa-solid fa-building me-1"></i>{{ job.company }}</p>
+        <p class="text-muted mb-2"><i class="fa-solid fa-location-dot me-1"></i>{{ job.location }}</p>
+        <span class="badge-skill">{{ job.get_job_type_display }}</span>
+        <a href="{% url 'job_details' job.pk %}" class="btn btn-pastel-outline btn-sm mt-3 w-100">View Details</a>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-muted">No jobs posted yet. Check back soon!</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container mb-5">
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="card-glass p-4">
+        <i class="fa-solid fa-file-lines fa-2x mb-3" style="color:var(--accent-purple);"></i>
+        <h5>AI Resume Analyzer</h5>
+        <p class="text-muted">Get an instant score, strengths, and improvement tips for your resume.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card-glass p-4">
+        <i class="fa-solid fa-chart-line fa-2x mb-3" style="color:var(--accent-purple);"></i>
+        <h5>Skill Gap Analyzer</h5>
+        <p class="text-muted">Compare your skills against any job and get a personalized learning roadmap.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card-glass p-4">
+        <i class="fa-solid fa-magnifying-glass fa-2x mb-3" style="color:var(--accent-purple);"></i>
+        <h5>Smart Job Search</h5>
+        <p class="text-muted">Filter jobs by skills, location, type, and experience level.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

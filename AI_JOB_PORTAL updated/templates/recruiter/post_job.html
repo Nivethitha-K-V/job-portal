@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Post a Job | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/recruiter_sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">{% if editing %}Edit Job{% else %}Post a New Job{% endif %}</h2>
+    <div class="card-glass p-4" style="max-width:750px;">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3"><label class="form-label">Job Title</label>{{ form.title }}</div>
+        <div class="mb-3"><label class="form-label">Company</label>{{ form.company }}</div>
+        <div class="mb-3"><label class="form-label">Description</label>{{ form.description }}</div>
+        <div class="mb-3"><label class="form-label">Skills Required (comma-separated)</label>{{ form.skills_required }}</div>
+        <div class="row">
+          <div class="col-md-6 mb-3"><label class="form-label">Location</label>{{ form.location }}</div>
+          <div class="col-md-6 mb-3"><label class="form-label">Salary</label>{{ form.salary }}</div>
+          <div class="col-md-6 mb-3"><label class="form-label">Job Type</label>{{ form.job_type }}</div>
+          <div class="col-md-6 mb-3"><label class="form-label">Experience Level</label>{{ form.experience }}</div>
+        </div>
+        <button type="submit" class="btn btn-pastel-primary">{% if editing %}Update Job{% else %}Post Job{% endif %}</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

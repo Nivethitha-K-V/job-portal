@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Register | AI Job Portal{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="card-glass p-5 mx-auto" style="max-width:520px;">
+    <h2 class="section-title text-center">Create Your Account</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        {{ form.full_name }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">I am a</label>
+        {{ form.role }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        {{ form.password1 }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        {{ form.password2 }}
+      </div>
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            {% for field in form %}{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}{% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <button type="submit" class="btn btn-pastel-primary w-100 mb-3">Sign Up</button>
+      <p class="text-center text-muted mb-0">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </form>
+  </div>
+</div>
+{% endblock %}

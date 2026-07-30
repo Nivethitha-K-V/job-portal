@@ -1,0 +1,24 @@
+<div class="sidebar">
+  <div class="text-center mb-4">
+    {% if profile.profile_photo %}
+      <img src="{{ profile.profile_photo.url }}" class="rounded-circle mb-2" width="70" height="70" style="object-fit:cover;">
+    {% else %}
+      <i class="fa-solid fa-circle-user fa-4x" style="color:var(--accent-purple);"></i>
+    {% endif %}
+    <p class="fw-bold mb-0 mt-2">{{ profile.full_name|default:user.username }}</p>
+    <small class="text-muted">Job Seeker</small>
+  </div>
+  <nav class="nav flex-column">
+    <a class="nav-link" href="{% url 'dashboard' %}"><i class="fa-solid fa-gauge me-2"></i>Dashboard</a>
+    <a class="nav-link" href="{% url 'profile' %}"><i class="fa-solid fa-user me-2"></i>My Profile</a>
+    <a class="nav-link" href="{% url 'edit_profile' %}"><i class="fa-solid fa-user-pen me-2"></i>Edit Profile</a>
+    <a class="nav-link" href="{% url 'upload_resume' %}"><i class="fa-solid fa-file-arrow-up me-2"></i>Upload Resume</a>
+    <a class="nav-link" href="{% url 'resume_analyzer' %}"><i class="fa-solid fa-magnifying-glass-chart me-2"></i>Resume Analyzer</a>
+    <a class="nav-link" href="{% url 'skill_gap_analyzer' %}"><i class="fa-solid fa-diagram-project me-2"></i>Skill Gap Analyzer</a>
+    <a class="nav-link" href="{% url 'job_list' %}"><i class="fa-solid fa-magnifying-glass me-2"></i>Job Search</a>
+    <a class="nav-link" href="{% url 'saved_jobs' %}"><i class="fa-solid fa-bookmark me-2"></i>Saved Jobs</a>
+    <a class="nav-link" href="{% url 'applied_jobs' %}"><i class="fa-solid fa-paper-plane me-2"></i>Applied Jobs</a>
+    <a class="nav-link" href="{% url 'notifications' %}"><i class="fa-solid fa-bell me-2"></i>Notifications</a>
+    <a class="nav-link" href="{% url 'settings' %}"><i class="fa-solid fa-gear me-2"></i>Settings</a>
+  </nav>
+</div>

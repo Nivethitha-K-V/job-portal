@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Resume Analyzer | AI Job Portal{% endblock %}
+{% block extra_css %}<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">{% endblock %}
+{% block content %}
+<div class="dashboard-wrapper">
+  {% include 'dashboard/sidebar.html' %}
+  <div class="main-content">
+    <h2 class="section-title">AI Resume Analyzer</h2>
+
+    {% if not resume %}
+      <div class="alert alert-warning">You haven't uploaded a resume yet. <a href="{% url 'upload_resume' %}">Upload one</a> first.</div>
+    {% else %}
+      <div class="card-glass p-4 mb-4">
+        <p class="mb-3">Current resume: <strong>{{ resume.file.name }}</strong> (uploaded {{ resume.uploaded_at|date:"M d, Y" }})</p>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-pastel-primary"><i class="fa-solid fa-wand-magic-sparkles me-1"></i>Analyze My Resume</button>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if result %}
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card-glass p-4 text-center">
+          <div class="score-circle mx-auto" style="--score: {{ result.score }};"><span>{{ result.score }}</span></div>
+          <p class="text-muted mt-3 mb-0">Resume Score</p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold">Skills Detected</h6>
+          {% for skill in result.skills_detected %}<span class="badge-skill">{{ skill }}</span>{% empty %}<p class="text-muted">None detected.</p>{% endfor %}
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card-glass p-4 h-100">
+          <h6 class="fw-bold text-success"><i class="fa-solid fa-circle-check me-1"></i>Strengths</h6>
+          <ul>{% for item in result.strengths %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-glass p-4 h-100">
+          <h6 class="fw-bold text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Weaknesses</h6>
+          <ul>{% for item in result.weaknesses %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold">Missing Skills to Consider</h6>
+          {% for skill in result.missing_skills %}<span class="badge-skill badge-skill-missing">{{ skill }}</span>{% endfor %}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card-glass p-4">
+          <h6 class="fw-bold"><i class="fa-solid fa-lightbulb me-1"></i>Suggestions</h6>
+          <ul>{% for item in result.suggestions %}<li>{{ item }}</li>{% endfor %}</ul>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
